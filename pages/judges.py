@@ -20,11 +20,14 @@ class Judges:
             EC.url_changes(current_url)
         )
 
-    def open(self):
-        self.driver.get('https://juds-client-admin-stage.aldera-soft.ru:8084/events/b83b62b1-5b66-4850-b286-856b12d02512/judges')
+    def open(self, WebAddress):
+        self.driver.get(f'{WebAddress}/judges')
 
     def add_judges(self):
-        self.driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/div[1]/button').click()
+        add_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/main/div[2]/div/div[1]/button'))
+        )
+        add_button.click()
         wait = WebDriverWait(self.driver, 5)
         wait.until_not(
             EC.text_to_be_present_in_element_attribute(
@@ -40,7 +43,7 @@ class Judges:
         for i in range(len_of_list):
             checkbox = list_of_checkboxes[i]
             checkbox.click()
-        self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div[2]/div/div[2]/div[3]/button')
+        self.driver.find_element(By.XPATH, '/html/body/div[3]/div/div[2]/div/div[2]/div[3]/button').click()
         wait.until(
             EC.text_to_be_present_in_element_attribute(
                 (By.XPATH, '//div[@class="ant-modal-wrap"]'),

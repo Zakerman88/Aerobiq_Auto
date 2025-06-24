@@ -20,11 +20,13 @@ class Applications:
             EC.url_changes(current_url)
         )
 
-    def open(self):
-        self.driver.get('https://juds-client-admin-stage.aldera-soft.ru:8084/events/856fac8a-7cf2-4072-9d3b-c1f84e75c1fd/applications')
+    def open(self, WebAddress):
+        self.driver.get(f'{WebAddress}/applications')
 
     def open_create_application_window(self):
-        create_button = self.driver.find_element(By.XPATH, '/html/body/div[1]/div/main/div[2]/div/div[1]/div/div[3]/button')
+        create_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH,"/html/body/div[1]/div/main/div[2]/div/div[1]/div/div[3]/button"))
+        )
         create_button.click()
         wait = WebDriverWait(self.driver, 5)
         wait.until_not(
@@ -38,7 +40,7 @@ class Applications:
     def choose_trainer(self, name): # name - фамилия имя
         open_trainers = self.driver.find_element(By.XPATH, '//*[@id="rc_select_0"]')
         open_trainers.click()
-        find_trainer = self.driver.find_element(By.XPATH, f'//div[@class="ant-select-item-option-content" and contains(text(),  {name})]')
+        find_trainer = self.driver.find_element(By.XPATH, f'//div[@class="ant-select-item-option-content" and contains(text(),  "{name}")]')
         find_trainer.click()
         #time.sleep(2)
 
@@ -185,17 +187,48 @@ class Applications:
         )
         next_sports_button.click()
 
-    def ui_elements(self, element):
-        list_element = self.driver.find_element(By.CSS_SELECTOR, '[href = "javascript:;"]')
-        list_element.click()
-        inputtest = self.driver.find_element(By.CSS_SELECTOR, '[href = "/elements/' + element + '"]')
-        print('inputtest: ', inputtest.text)
-        assert (inputtest.text.lower() == element.lower()) or (inputtest.text.lower() == element.lower() + 's')
-        current_url = self.driver.current_url
-        inputtest.click()
-        WebDriverWait(self.driver, 10).until(
-            EC.url_changes(current_url)
-        )
-        if element == 'input':
-            expected_url = 'https://www.qa-practice.com/elements/input/simple'
-            assert self.driver.current_url == expected_url
+    def send_applications(self):
+        list_created_applications = self.driver.find_elements(By.XPATH, '//*[@class="ant-space-item" and contains(text(), "Черновик")]/following::span[@class="anticon anticon-edit"]')
+        list_counted_pages = self.driver.find_elements(By.XPATH, '//a[@rel="nofollow"]')
+        len_of_list_created_applications = len(list_created_applications)
+        len_of_list_counted_pages = len(list_counted_pages)
+        for j in range (len_of_list_counted_pages):
+            for i in range(len_of_list_created_applications):
+                edit_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@class="ant-space-item" and contains(text(), "Черновик")]/following::span[@class="anticon anticon-edit"]'))
+                )
+                edit_button.click()
+                accept_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//button[@type="button" and contains(text(), "Подтвердить")]'))
+                )
+                accept_button.click()
+            page_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, f'//a[@rel="nofollow" and contains(text(), "{j + 1}")]'))
+            )
+            page_button.click()
+
+    def accept_applications(self):
+        list_created_applications = self.driver.find_elements(By.XPATH, '//*[@class="ant-space-item" and contains(text(), "На рассмотрении")]/following::span[@class="anticon anticon-edit"]')
+        list_counted_pages = self.driver.find_elements(By.XPATH, '//a[@rel="nofollow"]')
+        len_of_list_created_applications = len(list_created_applications)
+        len_of_list_counted_pages = len(list_counted_pages)
+        for j in range (len_of_list_counted_pages):
+            page_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, f'//li[@class="ant-pagination-item ant-pagination-item-{j + 1}"]'))
+            )
+            page_button.click()
+            for i in range(len_of_list_created_applications):
+                edit_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@class="ant-space-item" and contains(text(), "На рассмотрении")]/following::span[@class="anticon anticon-edit"]'))
+                )
+                edit_button.click()
+                accept_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//button[@type="button" and contains(text(), "Подтвердить")]'))
+                )
+                accept_button.click()
