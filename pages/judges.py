@@ -11,7 +11,10 @@ class Judges:
     def authorization(self):
         username = "admin@admin.com"
         password = "SomeSecure^17$58"
-        self.driver.get('https://juds-client-admin-stage.aldera-soft.ru:8084/')
+        baseURL = 'https://juds-client-admin-stage.aldera-soft.ru'
+        port = '8084'
+        URL = f'{baseURL}:{port}'
+        self.driver.get(URL)
         self.driver.find_element(By.NAME, "login").send_keys(username)
         self.driver.find_element(By.NAME, 'password').send_keys(password)
         current_url = self.driver.current_url
@@ -20,8 +23,8 @@ class Judges:
             EC.url_changes(current_url)
         )
 
-    def open(self, WebAddress):
-        self.driver.get(f'{WebAddress}/judges')
+    def open(self, URL):
+        self.driver.get(f'{URL}/judges')
 
     def add_judges(self):
         add_button = WebDriverWait(self.driver, 10).until(

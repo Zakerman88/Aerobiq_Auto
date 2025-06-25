@@ -1,24 +1,19 @@
 from pages.applications import Applications
 from pages.event_program import Program
 from pages.judges import Judges
+from pages.brigades import Brigades
 import time
 
-URL = 'https://juds-client-admin-stage.aldera-soft.ru:8084/events/856fac8a-7cf2-4072-9d3b-c1f84e75c1fd'
-IndWomanTrainer1 = 'Павлова' # middle
-IndWomanTrainer2 = 'Зверева' # small
-IndWomanTrainer3 = 'Хасикян' # middle
-IndWomanTrainer4 = 'Гусева' # high
-IndWomanTrainer5 = 'Хандов' # small middle high
-IndManTrainer1 = 'Хандов'
-IndManTrainer2 = 'Гусева'
-IndManTrainer3 = 'Павлова'
-IndManTrainer4 = 'Зверева'
-TrioTrainer1 = 'Харужева'
-TrioTrainer2 = 'Хандов'
-GPTrainer1 = 'Хандов'
-GPTrainer2 = 'Зверева'
-TGTrainer1 = 'Хандов'
-TGTrainer2 = 'Пашкова'
+baseURL = 'https://juds-client-admin-stage.aldera-soft.ru'
+port = '8084'
+category = 'events'
+eventID = '856fac8a-7cf2-4072-9d3b-c1f84e75c1fd'
+URL = f'{baseURL}:{port}/{category}/{eventID}'
+IndWomanTrainers = ['Павлова', 'Зверева', 'Хасикян', 'Гусева', 'Хандов']
+IndManTrainers = ['Хандов', 'Гусева', 'Павлова', 'Зверева']
+TrioTrainers = ['Харужева', 'Хандов']
+GPTrainers = ['Хандов', 'Зверева']
+TGTrainers = ['Хандов', 'Пашкова']
 # woman - Павлова, Зверева, Хасикян, Гусева, Хандов; man - Хандов, Гусева, Павлова, Зверева; trio - Харужева, Хандов; gruppa - ,,; GP - Хандов, Зверева; TG - Хандов, Пашкова;
 small = 1
 middle = 2
@@ -38,7 +33,8 @@ def test_add_IndWoman1(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer1) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[0]) #выбор тренера
+    time.sleep(2)
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -56,7 +52,7 @@ def test_add_IndWoman2(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer2) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[1]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -74,7 +70,7 @@ def test_add_IndWoman3(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer3) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[2]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -92,7 +88,7 @@ def test_add_IndWoman4(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer4) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[3]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -110,7 +106,7 @@ def test_add_IndWoman5(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer5) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[4]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -128,7 +124,7 @@ def test_add_IndWoman6(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer5) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[4]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -146,7 +142,7 @@ def test_add_IndWoman7(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndWomanTrainer5) #выбор тренера
+    app.choose_trainer(IndWomanTrainers[4]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -164,7 +160,7 @@ def test_add_IndMan1(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndManTrainer1) #выбор тренера
+    app.choose_trainer(IndManTrainers[0]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -182,7 +178,7 @@ def test_add_IndMan2(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndManTrainer2) #выбор тренера
+    app.choose_trainer(IndManTrainers[1]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -200,7 +196,7 @@ def test_add_IndMan3(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndManTrainer3) #выбор тренера
+    app.choose_trainer(IndManTrainers[2]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -218,7 +214,7 @@ def test_add_IndMan4(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(IndManTrainer4) #выбор тренера
+    app.choose_trainer(IndManTrainers[3]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -236,7 +232,7 @@ def test_add_Trio1(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(TrioTrainer1) #выбор тренера
+    app.choose_trainer(TrioTrainers[0]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -256,7 +252,7 @@ def test_add_Trio2(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(TrioTrainer2) #выбор тренера
+    app.choose_trainer(TrioTrainers[1]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -276,7 +272,7 @@ def test_add_TG1(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(TGTrainer1) #выбор тренера
+    app.choose_trainer(TGTrainers[0]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -301,7 +297,7 @@ def test_add_TG2(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(TGTrainer2) #выбор тренера
+    app.choose_trainer(TGTrainers[1]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -326,7 +322,7 @@ def test_add_GP1(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(GPTrainer1) #выбор тренера
+    app.choose_trainer(GPTrainers[0]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -351,7 +347,7 @@ def test_add_GP2(driver):
     app.authorization() #авторизация
     app.open(URL)
     app.open_create_application_window()
-    app.choose_trainer(GPTrainer2) #выбор тренера
+    app.choose_trainer(GPTrainers[1]) #выбор тренера
     app.choose_organisation()
     app.save_application()
     app.open_add_nomination_window()
@@ -360,14 +356,10 @@ def test_add_GP2(driver):
     app.save_nomination()
     app.open_add_sports_window()
     while (1): #бесконечно добавляет
-        app.add_1_sportik()
-        app.add_2_sportik()
-        app.add_3_sportik()
-        app.add_4_sportik()
-        app.add_5_sportik()
-        app.add_6_sportik()
-        app.add_7_sportik()
-        app.add_8_sportik()
+        i = 1
+        while i != 8:
+            app.add_1_sportik()
+            i = i + 1
         app.add_next_sports()
         time.sleep(0.1)
 
@@ -394,13 +386,17 @@ def test_add_judges(driver):
         i = i + 1
 
 def test_judges_teams(driver):
-    print('Not ready')
+    br = Brigades(driver)
+    br.authorization()
+    br.open(URL)
+    br.open_edit_brigades()
+    br.create_brigades(4)
 
 def test_set_program_plan(driver):
     prog = Program(driver)
     prog.authorization()
     prog.open(URL)
-    prog.set_event_program() # in progress / d'n'd problems
+    prog.set_event_program()
 
 
 def test_start_event(driver):

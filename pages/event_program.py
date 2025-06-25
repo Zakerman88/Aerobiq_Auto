@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
+from pages.aerobiq_dnd import drag_and_drop
 import time
 
 class Program:
@@ -12,7 +13,10 @@ class Program:
     def authorization(self):
         username = "admin@admin.com"
         password = "SomeSecure^17$58"
-        self.driver.get('https://juds-client-admin-stage.aldera-soft.ru:8084/')
+        baseURL = 'https://juds-client-admin-stage.aldera-soft.ru'
+        port = '8084'
+        URL = f'{baseURL}:{port}'
+        self.driver.get(URL)
         self.driver.find_element(By.NAME, "login").send_keys(username)
         self.driver.find_element(By.NAME, 'password').send_keys(password)
         current_url = self.driver.current_url
@@ -21,8 +25,9 @@ class Program:
             EC.url_changes(current_url)
         )
 
-    def open(self, WebAddress):
-        self.driver.get(f'{WebAddress}/program/edit')
+    def open(self, URL):
+        #self.driver.get(URL)
+        self.driver.get(f'{URL}/program/edit')
 
     def start_program(self):
         start_button = WebDriverWait(self.driver, 10).until(
@@ -51,16 +56,20 @@ class Program:
             checkboxes[i + 1].click()
 
     def set_event_program(self):
+        dnd = drag_and_drop(self.driver)
         list_dnd = self.driver.find_elements(
             By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/descendant::*[@style="cursor: grab;"]'
         )
         len_of_list_dnd = len(list_dnd)
-        print(len_of_list_dnd)
-        time.sleep(3)
-        for i in range(len_of_list_dnd):
+        print('Номинаций всего: ', len_of_list_dnd)
+        i = 0
+        dnd_xpath_locator = '//div[@class="sc-GKYbw eWVKHj"]/child::*'
+        dnd_attribute_ = 'style'
+        dnd_text_ = 'transition: transform linear;'
+        while (1):
             drag = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/descendant::*[@style="cursor: grab;"]')
+                    (By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/child::*')
                 )
             )
             drop = WebDriverWait(self.driver, 10).until(
@@ -68,10 +77,15 @@ class Program:
                     (By.XPATH, '//span[contains(text(), "1 бригада")]/following::*[@class="sc-UpCWa gwtxli"]')
                 )
             )
-            ActionChains(self.driver).drag_and_drop(drag, drop)
+            dnd.dragndrop_program(drag, drop, dnd_xpath_locator, dnd_attribute_, dnd_text_)
+            i = i + 1
+            if i == len_of_list_dnd:
+                print('Номинаций готово: ', i)
+                break
+
             drag = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/descendant::*[@style="cursor: grab;"]')
+                    (By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/child::*')
                 )
             )
             drop = WebDriverWait(self.driver, 10).until(
@@ -79,15 +93,5 @@ class Program:
                     (By.XPATH, '//span[contains(text(), "2 бригада")]/following::*[@class="sc-UpCWa gwtxli"]')
                 )
             )
-            ActionChains(self.driver).drag_and_drop(drag, drop)
-
-    def dnd_example(self):
-        time.sleep(3)
-        drag = self.driver.find_element(
-            By.XPATH, '//div[@class="sc-GKYbw eWVKHj"]/descendant::*[@style="cursor: grab;"]'
-        )
-        drop = self.driver.find_element(
-            By.XPATH, '//span[contains(text(), "1 бригада")]/following::*[@class="sc-UpCWa gwtxli"]'
-        )
-        time.sleep(3)
-        ActionChains(self.driver).drag_and_drop(drag, drop).perform()
+            dnd.dragndrop_program(drag, drop, dnd_xpath_locator, dnd_attribute_, dnd_text_)
+            i = i + 1

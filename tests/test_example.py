@@ -1,9 +1,14 @@
 from pages.applications import Applications
 from pages.event_program import Program
 from pages.judges import Judges
+from pages.brigades import Brigades
 import time
 
-WebAddress = 'https://juds-client-admin-stage.aldera-soft.ru:8084/events/b83b62b1-5b66-4850-b286-856b12d02512'
+baseURL = 'https://juds-client-admin-stage.aldera-soft.ru'
+port = '8084'
+category = 'events'
+eventID = 'b83b62b1-5b66-4850-b286-856b12d02512'
+URL = f'{baseURL}:{port}/{category}/{eventID}'
 IndWomanTrainer1 = 'Павлова' # middle
 IndWomanTrainer2 = 'Зверева' # small
 IndWomanTrainer3 = 'Хасикян' # middle
@@ -34,8 +39,8 @@ SmeshPara = 7
 # номинации 1=ИЖ, 2=ИМ, 3=трио, 4=группа-5, 5=ТГ, 6=ГП, 7=смеш.пара
 
 def test_start_program(driver):
-    prog = Program(driver)
-    prog.authorization()
-    prog.open(WebAddress)
-    #prog.open_edit_event_program()
-    prog.dnd_example()
+    brig = Brigades(driver)
+    brig.authorization()
+    brig.open(URL)
+    brig.open_edit_brigades()
+    brig.create_brigades(4)
