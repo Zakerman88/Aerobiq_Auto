@@ -398,6 +398,5 @@ def test_set_program_plan(driver):
     prog.open(URL)
     prog.set_event_program()
 
-
 def test_start_event(driver):
     print('Not ready')
